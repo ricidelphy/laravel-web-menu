@@ -24,6 +24,6 @@ COPY package.json ./
 RUN npm install
 
 ## Make our shell script executable
-RUN chmod +x start.sh
+RUN chmod +x startup.sh
 
 CMD sh /app/docker/startup.sh
