@@ -15,4 +15,20 @@ RUN cd /app && \
 
 RUN chown -R www-data: /app
 
+
+COPY package.json ./
+
+# Install Node
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gnupg && \
+    curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends nodejs && \
+    npm config set registry https://registry.npm.taobao.org --global && \
+    npm install --global gulp-cli
+
+
+## Make our shell script executable
+RUN chmod +x start.sh
+
 CMD sh /app/docker/startup.sh
