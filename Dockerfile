@@ -1,6 +1,9 @@
 FROM php:7.4-fpm-alpine
 
-RUN apk add --no-cache nginx wget
+RUN apk add --no-cache nginx wget bash
+
+# Install npm and node
+RUN apk add --update npm
 
 RUN mkdir -p /run/nginx
 
@@ -18,15 +21,7 @@ RUN chown -R www-data: /app
 
 COPY package.json ./
 
-# Install Node
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends gnupg && \
-    curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends nodejs && \
-    npm config set registry https://registry.npm.taobao.org --global && \
-    npm install --global gulp-cli
-
+RUN npm install
 
 ## Make our shell script executable
 RUN chmod +x start.sh
